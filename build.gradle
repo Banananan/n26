@@ -1,0 +1,82 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.4.0.RELEASE")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'idea'
+apply plugin: 'spring-boot'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+defaultTasks 'bootRun'
+
+bootRepackage {
+    mainClass = 'n26.Application'
+}
+
+jar {
+    baseName = 'n26'
+}
+
+springBoot {
+    mainClass = 'n26.Application'
+    executable = true
+}
+
+bootRun {
+    addResources = false
+}
+
+test {
+    include '**/*Test*'
+
+    ignoreFailures true
+    reports.html.enabled = false
+}
+
+task testReport(type: TestReport) {
+    destinationDir = file("$buildDir/reports/tests")
+    reportOn test
+}
+
+group = 'n26'
+
+description = 'n26'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter")
+    compile("org.springframework.boot:spring-boot-starter-web") {
+        exclude module: "spring-boot-starter-tomcat"
+    }
+    compile("org.springframework.boot:spring-boot-starter-jetty")
+
+    compile("com.fasterxml.jackson.core:jackson-core")
+    compile("com.fasterxml.jackson.core:jackson-annotations")
+
+    compileOnly("org.projectlombok:lombok:1.6.10")
+
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+    testCompile("junit:junit")
+    testCompile("org.assertj:assertj-core:3.3.0")
+}
+
+compileJava.dependsOn(processResources)
+
+clean {
+    delete "target"
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.0'
+}
