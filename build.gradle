@@ -64,7 +64,7 @@ dependencies {
     compile("com.fasterxml.jackson.core:jackson-core")
     compile("com.fasterxml.jackson.core:jackson-annotations")
 
-    compileOnly("org.projectlombok:lombok:1.6.10")
+    compileOnly("org.projectlombok:lombok")
 
     testCompile("org.springframework.boot:spring-boot-starter-test")
     testCompile("junit:junit")
